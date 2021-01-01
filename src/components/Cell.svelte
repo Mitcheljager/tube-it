@@ -17,6 +17,14 @@
   let rotating = false
   let active = false
 
+  onMount(() => {
+    const randomTimes = Math.floor((Math.random() * 4));
+
+    [...Array(randomTimes)].forEach(() => {
+      rotateShapeArray()
+    })
+  })
+
   function updateCell() {
     setTimeout(() => { dispatch("updateCell", { index: index }) }, 100)
   }
@@ -25,12 +33,16 @@
     rotating = true
 
     setTimeout(() => {
-      cell.shape = cell.shape.map((val, index) => cell.shape.map(row => row[index]).reverse())
+      rotateShapeArray()
 
       rotating = false
     }, 100)
 
     updateCell()
+  }
+
+  function rotateShapeArray() {
+    cell.shape = cell.shape.map((val, index) => cell.shape.map(row => row[index]).reverse())
   }
 
   function startDrag(event) {
@@ -90,7 +102,7 @@
   }
 </script>
 
-<g class="cell { cell.connected ? "connected" : "" } { cell.to_be_removed ? "removing" : "" }"
+<g class="cell { cell.connected ? "cell--connected" : "" } { cell.to_be_removed ? "cell--removing" : "" } cell--{ cell.connected_to[1] }"
    class:active
    transform="translate({ $tweenedX * 45 }, { $tweenedY * 45 })"
    on:mousedown={ startDrag }>
@@ -101,8 +113,9 @@
     { #each cell.shape as row, i }
       { #each row as connector, j }
           <rect height=15 width=15 x={ j * 15 } y={ i * 15 }
-                fill={ connector ? (cell.connected ? "#bd1d46" : "#738b98") : "transparent" }
-                stroke={ connector ? (cell.connected ? "#bd1d46" : "#738b98") : "transparent" }
+                class:connector
+                fill="transparent"
+                stroke="transparent"
                 stroke-width=1 />
       { /each }
     { /each }
@@ -110,6 +123,36 @@
 </g>
 
 <style lang="scss">
+  $primary: #bd1d46;
+  $secondary: #4fa0f7;
+  $gray: #738b98;
+
+  .cell {
+    --cell-color: #{ $gray };
+
+    @for $i from 0 through 11 {
+      &--#{ $i } {
+        &.cell--connected {
+          --cell-color: #{ adjust-hue($primary, (11 - $i) * 30) }
+        }
+      }
+    }
+
+    &--connected {
+      .connectors {
+        filter: drop-shadow(0 0 5px var(--cell-color));
+      }
+    }
+
+    &--removing {
+      rect {
+        transition: fill 200ms;
+        fill: transparent;
+        stroke: transparent;
+      }
+    }
+  }
+
   .cell:hover,
   .cell:active {
     stroke: #738b98;
@@ -121,14 +164,9 @@
     stroke: #ffffffcc;
   }
 
-  .connected .connectors {
-    filter: drop-shadow(0 0 5px #bd1d46);
-  }
-
-  .removing rect {
-    transition: fill 200ms;
-    fill: transparent;
-    stroke: transparent;
+  .connector {
+    fill: var(--cell-color);
+    stroke: var(--cell-color);
   }
 
   g {
