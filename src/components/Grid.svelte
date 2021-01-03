@@ -4,6 +4,7 @@
   import { cells, cellShapes } from "../stores/cells.js"
   import Cell from "./Cell.svelte"
   import GridBg from "./GridBg.svelte"
+  import Aside from "./Aside.svelte"
 
   const maxCellY = 11
   const maxCellX = 5
@@ -25,21 +26,32 @@
     }
   }
 
+  $: checkCellsOutOfFrame($cells)
+
   onMount(() => {
     moveFlyingCells()
-    setInterval(moveFlyingCells, 20);
+    setInterval(moveFlyingCells, 100);
 
-    [...Array(50)].forEach((_, i) => { addRandomCell() })
+    [...Array(30)].forEach((_, i) => { addRandomCell() })
 
     // setInterval(addRandomCell, 1000)
   })
 
   function addRandomCell() {
-    const shape = $cellShapes[Math.floor(Math.random() * $cellShapes.length)]
+    const cellShape = getWeightedCellShape()
     const randomString = Math.random().toString(16).substr(2, 5)
     const randomX = Math.floor((Math.random() * 6))
 
-    $cells = [...$cells, { id: randomString, x: randomX, y: -1, shape: shape }]
+    $cells = [...$cells, { id: randomString, x: randomX, y: -1, shape: cellShape.shape }]
+  }
+
+  function getWeightedCellShape() {
+    const items = []
+    $cellShapes.forEach(s => {
+      [...Array(s.weight)].forEach(() => { items.push(s) })
+    })
+
+    return items[Math.floor(Math.random() * items.length)]
   }
 
   function moveFlyingCells() {
@@ -98,12 +110,25 @@
 
       setTimeout(() => {
         if ($cells[cellIndex]) $cells = $cells.filter(c => !cellsToBeRemoved.includes(c))
-      }, 1000)
+      }, 200)
 
       return true
     }
 
     return false
+  }
+
+  function checkCellsOutOfFrame() {
+    const cellsOutOfFrame = $cells.filter(c => c.y < 0)
+
+    if (!cellsOutOfFrame.length) return
+
+    setTimeout(() => {
+      if (cellsOutOfFrame.some(c =>
+            $cells.filter(c2 => c.id == c2.id && c2.y < 0).length > 0)) {
+        console.log("a")
+      }
+    }, 1000)
   }
 
   function isAnyCellBelowFree(cell) {
@@ -120,19 +145,24 @@
   }
 </script>
 
-<svg viewBox="0 0 270 540">
-  <rect width=270 height=540 fill=#12191d />
-  <GridBg />
+<svg viewBox="0 0 330 540">
+  <rect width=330 height=540 fill=#12191d />
 
-  { #each $cells as cell, index (cell.id) }
-    <Cell { cell } { index } />
-  { /each }
+  <svg width=270 x=30>
+    <GridBg />
+    { #each $cells as cell, index (cell.id) }
+      <Cell { cell } { index } />
+    { /each }
+  </svg>
+
+  <Aside />
+  <Aside align=right />
 </svg>
 
 <style>
   svg {
     height: calc(100vh - 100px);
     width: auto;
-    background: #222;
+    background: #12191d;
   }
 </style>

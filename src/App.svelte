@@ -9,7 +9,7 @@
 	</div>
 </main>
 
-<style>
+<style lang="scss">
 	:global(:root) {
 		font-size: 14px;
 	}
@@ -34,7 +34,7 @@
 			"info"
 			"content";
 		grid-template-rows: 100px auto;
-		background: black;
+		background: darken(#12191d, 5%);
 		color: lightgray;
 		height: 100vh;
 	}
@@ -47,5 +47,7 @@
 		grid-area: content;
 		display: flex;
 		justify-content: center;
+    overflow-x: hidden;
+    background: #12191d;
 	}
 </style>

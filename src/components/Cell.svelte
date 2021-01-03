@@ -6,8 +6,8 @@
   export let index
   export let cell
 
-  let tweenedX = tweened(cell.x, { duration: 50 })
-  let tweenedY = tweened(cell.y, { duration: 50 })
+  let tweenedX = tweened(cell.x, { duration: 100 })
+  let tweenedY = tweened(cell.y, { duration: 100 })
   $: $tweenedX = cell.x
   $: $tweenedY = cell.y
 
@@ -124,7 +124,6 @@
 
 <style lang="scss">
   $primary: #bd1d46;
-  $secondary: #4fa0f7;
   $gray: #738b98;
 
   .cell {
@@ -145,10 +144,17 @@
     }
 
     &--removing {
+      .connectors {
+        filter: none;
+      }
+
       rect {
-        transition: fill 200ms;
+        transform: scale(0.25);
         fill: transparent;
         stroke: transparent;
+        transition: fill 200ms, transform 200ms;
+        transform-origin: center;
+        transform-box: fill-box;
       }
     }
   }
