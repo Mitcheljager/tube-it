@@ -1,6 +1,7 @@
 import { writable, readable } from "svelte/store"
 
 const cells = writable([])
+const cellNextX = writable(0)
 
 const cellShapes = readable([
   { shape: [[0, 1, 0], [1, 1, 1], [0, 1, 0]], weight: 1 }, // plus
@@ -10,4 +11,4 @@ const cellShapes = readable([
   { shape: [[0, 0, 0], [1, 1, 1], [0, 0, 0]], weight: 10 } // pipe
 ])
 
-export { cells, cellShapes }
+export { cells, cellShapes, cellNextX }

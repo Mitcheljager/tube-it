@@ -1,13 +1,17 @@
 <script>
-  import Grid from "./components/Grid.svelte"
+  import { screen } from "./stores/screen.js"
+  import Game from "./components/Game.svelte"
+  import Menu from "./components/Menu.svelte"
+  import Tutorial from "./components/Tutorial.svelte"
+
+  const screens = [
+    { component: Game, identifier: "game" },
+    { component: Menu, identifier: "menu" },
+    { component: Tutorial, identifier: "tutorial" }
+  ]
 </script>
 
-<main class="board">
-	<div class="board__info"></div>
-	<div class="board__content">
-		<Grid />
-	</div>
-</main>
+<svelte:component this={ screens.filter(i =>  i.identifier == $screen)[0].component } />
 
 <style lang="scss">
 	:global(:root) {
@@ -21,33 +25,12 @@
 	:global(body) {
 		margin: 0;
 		padding: 0;
-		font-family: "Consolas", monospace;
+    background: darken(#12191d, 5%);
+    font-family: "Consolas", monospace;
+    color: #e5e5e5;
 	}
 
 	:global(p) {
 		margin: 0;
-	}
-
-	.board {
-		display: grid;
-		grid-template:
-			"info"
-			"content";
-		grid-template-rows: 100px auto;
-		background: darken(#12191d, 5%);
-		color: lightgray;
-		height: 100vh;
-	}
-
-	.board__info {
-		grid-area: info;
-	}
-
-	.board__content {
-		grid-area: content;
-		display: flex;
-		justify-content: center;
-    overflow-x: hidden;
-    background: #12191d;
 	}
 </style>

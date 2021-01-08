@@ -1,7 +1,8 @@
 <script>
-  import { onMount, afterUpdate, createEventDispatcher } from "svelte"
+  import { onMount, createEventDispatcher } from "svelte"
   import { tweened } from "svelte/motion"
   import { cells } from "../stores/cells.js"
+  import { screen, paused } from "../stores/screen.js"
 
   export let index
   export let cell
@@ -19,6 +20,8 @@
 
   onMount(() => {
     const randomTimes = Math.floor((Math.random() * 4));
+
+    if ($screen == "tutorial") return
 
     [...Array(randomTimes)].forEach(() => {
       rotateShapeArray()
@@ -46,6 +49,8 @@
   }
 
   function startDrag(event) {
+    if ($paused) return
+
     active = true
     let dragStart = event.pageX
     let dragCurrent = dragStart
@@ -152,7 +157,7 @@
         transform: scale(0.25);
         fill: transparent;
         stroke: transparent;
-        transition: fill 200ms, transform 200ms;
+        transition: fill 200ms 50ms, transform 200ms 50ms, stroke 0ms 50ms;
         transform-origin: center;
         transform-box: fill-box;
       }

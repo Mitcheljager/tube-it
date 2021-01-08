@@ -1,10 +1,14 @@
 <script>
-  import { onMount } from "svelte"
+  import { onMount, onDestroy } from "svelte"
   import { readable, get } from "svelte/store"
-  import { cells, cellShapes } from "../stores/cells.js"
+  import { cells, cellShapes, cellNextX } from "../stores/cells.js"
+  import { numberOfCellsToBeRemoved } from "../stores/score.js"
+  import { paused, screen } from "../stores/screen.js"
+
   import Cell from "./Cell.svelte"
   import GridBg from "./GridBg.svelte"
   import Aside from "./Aside.svelte"
+  import Paused from "./Paused.svelte"
 
   const maxCellY = 11
   const maxCellX = 5
@@ -17,6 +21,7 @@
 
   let checkedCells = []
   let watchCells = JSON.stringify($cells)
+  let moveInterval
 
   $: {
     if (watchCells != JSON.stringify($cells)) {
@@ -30,31 +35,19 @@
 
   onMount(() => {
     moveFlyingCells()
-    setInterval(moveFlyingCells, 100);
 
-    [...Array(30)].forEach((_, i) => { addRandomCell() })
-
-    // setInterval(addRandomCell, 1000)
+    // [...Array(30)].forEach((_, i) => { addRandomCell() })
+    moveInterval = setInterval(moveFlyingCells, 100)
   })
 
-  function addRandomCell() {
-    const cellShape = getWeightedCellShape()
-    const randomString = Math.random().toString(16).substr(2, 5)
-    const randomX = Math.floor((Math.random() * 6))
-
-    $cells = [...$cells, { id: randomString, x: randomX, y: -1, shape: cellShape.shape }]
-  }
-
-  function getWeightedCellShape() {
-    const items = []
-    $cellShapes.forEach(s => {
-      [...Array(s.weight)].forEach(() => { items.push(s) })
-    })
-
-    return items[Math.floor(Math.random() * items.length)]
-  }
+  onDestroy(() => {
+    $cells = []
+    clearInterval(moveInterval)
+  })
 
   function moveFlyingCells() {
+    if ($paused) return
+
     $cells = $cells.map(cell => {
       if (isAnyCellBelowFree(cell)) cell.y++
       return cell
@@ -106,11 +99,12 @@
   function checkCompletedLine(cell, cellIndex) {
     if ($cells[cellIndex].connected == true && $cells[cellIndex].connected_to != cell.connected_to) {
       const cellsToBeRemoved = $cells.filter(c => c.connected_to == cell.connected_to || c.connected_to == $cells[cellIndex].connected_to)
-      cellsToBeRemoved.map(c => c.to_be_removed = true)
+      numberOfCellsToBeRemoved.set(cellsToBeRemoved.length)
 
+      setTimeout(() => { cellsToBeRemoved.map(c => c.to_be_removed = true) })
       setTimeout(() => {
         if ($cells[cellIndex]) $cells = $cells.filter(c => !cellsToBeRemoved.includes(c))
-      }, 200)
+      }, 250)
 
       return true
     }
@@ -145,11 +139,23 @@
   }
 </script>
 
+{ #if $paused }
+  <Paused />
+{ /if }
+
 <svg viewBox="0 0 330 540">
   <rect width=330 height=540 fill=#12191d />
 
   <svg width=270 x=30>
     <GridBg />
+
+    { #if $screen != "tutorial" }
+      <text x={ 45 * $cellNextX + 14 }
+            y=24
+            font-size=30
+            fill=#738b98>↓</text>
+    { /if }
+
     { #each $cells as cell, index (cell.id) }
       <Cell { cell } { index } />
     { /each }
