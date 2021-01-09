@@ -16,38 +16,38 @@
   function setCellsForLevel() {
     if (level == 0) {
       $cells = [
-        { id: randomString(), x: 0, y: 5, connected_to: -1, shape: $cellShapes[3].shape },
-        { id: randomString(), x: 1, y: 4, connected_to: -1, shape: $cellShapes[3].shape },
-        { id: randomString(), x: 2, y: 3, connected_to: -1, shape: $cellShapes[3].shape },
-        { id: randomString(), x: 3, y: 2, connected_to: -1, shape: [[0, 1, 0], [0, 1, 0], [0, 1, 0]] },
-        { id: randomString(), x: 4, y: 1, connected_to: -1, shape: $cellShapes[3].shape },
-        { id: randomString(), x: 5, y: 0, connected_to: -1, shape: $cellShapes[3].shape }
+        { id: randomString(), x: 0, y: 0, connected_to: -1, shape: $cellShapes[3].shape },
+        { id: randomString(), x: 1, y: -1, connected_to: -1, shape: $cellShapes[3].shape },
+        { id: randomString(), x: 2, y: -2, connected_to: -1, shape: $cellShapes[3].shape },
+        { id: randomString(), x: 3, y: -3, connected_to: -1, shape: [[0, 1, 0], [0, 1, 0], [0, 1, 0]] },
+        { id: randomString(), x: 4, y: -4, connected_to: -1, shape: $cellShapes[3].shape },
+        { id: randomString(), x: 5, y: -5, connected_to: -1, shape: $cellShapes[3].shape }
       ]
     } else if (level == 1) {
       $cells = [
-        { id: randomString(), x: 0, y: 6, connected_to: -1, shape: $cellShapes[3].shape },
-        { id: randomString(), x: 1, y: 5, connected_to: -1, shape: $cellShapes[3].shape },
-        { id: randomString(), x: 2, y: 4, connected_to: -1, shape: $cellShapes[3].shape },
-        { id: randomString(), x: 3, y: 3, connected_to: -1, shape: $cellShapes[3].shape },
-        { id: randomString(), x: 4, y: 2, connected_to: -1, shape: $cellShapes[3].shape },
-        { id: randomString(), x: 5, y: 1, connected_to: -1, shape: [[0, 1, 0], [1, 1, 0], [0, 0, 0]] },
-        { id: randomString(), x: 5, y: 0, connected_to: -1, shape: [[0, 1, 0], [0, 1, 1], [0, 0, 0]] }
+        { id: randomString(), x: 0, y: 0, connected_to: -1, shape: $cellShapes[3].shape },
+        { id: randomString(), x: 1, y: -1, connected_to: -1, shape: $cellShapes[3].shape },
+        { id: randomString(), x: 2, y: -2, connected_to: -1, shape: $cellShapes[3].shape },
+        { id: randomString(), x: 3, y: -3, connected_to: -1, shape: $cellShapes[3].shape },
+        { id: randomString(), x: 4, y: -4, connected_to: -1, shape: $cellShapes[3].shape },
+        { id: randomString(), x: 5, y: -5, connected_to: -1, shape: [[0, 1, 0], [1, 1, 0], [0, 0, 0]] },
+        { id: randomString(), x: 5, y: -6, connected_to: -1, shape: [[0, 1, 0], [0, 1, 1], [0, 0, 0]] }
       ]
     } else if (level == 2) {
       $cells = [
-        { id: randomString(), x: 0, y: 3, connected_to: -1, shape: $cellShapes[3].shape },
-        { id: randomString(), x: 0, y: 2, connected_to: -1, shape: $cellShapes[3].shape },
-        { id: randomString(), x: 1, y: 1, connected_to: -1, shape: [[0, 1, 0], [1, 1, 0], [0, 0, 0]] },
-        { id: randomString(), x: 1, y: 0, connected_to: -1, shape: [[0, 1, 0], [1, 1, 0], [0, 0, 0]] },
+        { id: randomString(), x: 0, y: 0, connected_to: -1, shape: $cellShapes[3].shape },
+        { id: randomString(), x: 0, y: -1, connected_to: -1, shape: $cellShapes[3].shape },
+        { id: randomString(), x: 1, y: -2, connected_to: -1, shape: [[0, 1, 0], [1, 1, 0], [0, 0, 0]] },
+        { id: randomString(), x: 1, y: -3, connected_to: -1, shape: [[0, 1, 0], [1, 1, 0], [0, 0, 0]] },
       ]
     } else if (level == 3) {
       $cells = [
-        { id: randomString(), x: 0, y: 5, connected_to: -1, shape: $cellShapes[3].shape },
-        { id: randomString(), x: 1, y: 4, connected_to: -1, shape: $cellShapes[3].shape },
-        { id: randomString(), x: 2, y: 3, connected_to: -1, shape: $cellShapes[3].shape },
-        { id: randomString(), x: 2, y: 2, connected_to: -1, shape: $cellShapes[3].shape },
-        { id: randomString(), x: 4, y: 2, connected_to: -1, shape: $cellShapes[3].shape },
-        { id: randomString(), x: 5, y: 1, connected_to: -1, shape: $cellShapes[3].shape }
+        { id: randomString(), x: 0, y: 0, connected_to: -1, shape: $cellShapes[3].shape },
+        { id: randomString(), x: 1, y: -1, connected_to: -1, shape: $cellShapes[3].shape },
+        { id: randomString(), x: 2, y: -2, connected_to: -1, shape: $cellShapes[3].shape },
+        { id: randomString(), x: 2, y: -3, connected_to: -1, shape: $cellShapes[3].shape },
+        { id: randomString(), x: 4, y: -3, connected_to: -1, shape: $cellShapes[3].shape },
+        { id: randomString(), x: 5, y: -4, connected_to: -1, shape: $cellShapes[3].shape }
       ]
     }
   }

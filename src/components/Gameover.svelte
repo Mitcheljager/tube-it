@@ -3,10 +3,9 @@
 </script>
 
 <div class="fullscreen">
-  <div class="title">[<small>Paused</small>]</div>
+  <div class="title">[<small>Game Over</small>]</div>
 
   <div>
-    <div class="button" on:click={ () => { $paused = !$paused } }><span>&gt;</span> Continue</div>
     <div class="button" on:click={ () => { $screen = "menu"; $paused = false } }><span>&gt;</span> Exit to menu</div>
   </div>
 </div>
@@ -22,7 +21,7 @@
     left: 0;
     height: 100%;
     width: 100%;
-    background: darken(#12191d, 5%);
+    background: #000000bb;
   }
 
   .title {
@@ -34,7 +33,7 @@
 
     small {
       font-size: 1em;
-      color: #c08706;
+      color: #bd1d46;
     }
   }
 

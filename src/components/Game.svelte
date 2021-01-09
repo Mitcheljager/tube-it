@@ -4,18 +4,24 @@
   import { cells, cellShapes, cellNextX } from "../stores/cells.js"
   import Grid from "./Grid.svelte"
   import Score from "./Score.svelte"
+  import Paused from "./Paused.svelte"
+  import Gameover from "./Gameover.svelte"
 
   let addCellInterval
+  let gameover
 
   onMount(() => {
+    gameover = false
     addRandomCell()
-    addCellInterval = setInterval(addRandomCell, 1000)
+    addCellInterval = setInterval(addRandomCell, 500)
   })
 
   onDestroy(() => { clearInterval(addCellInterval) })
 
+  $: checkCellsOutOfFrame($cells)
+
   function addRandomCell() {
-    if ($paused) return
+    if ($paused || gameover) return
 
     const cellShape = getWeightedCellShape()
     const randomString = Math.random().toString(16).substr(2, 5)
@@ -37,6 +43,22 @@
   function pause() {
     $paused = !$paused
   }
+
+  function checkCellsOutOfFrame() {
+
+    const cellsOutOfFrame = $cells.filter(c => c.y < 0)
+
+    if (!cellsOutOfFrame.length) return
+
+    setTimeout(() => {
+      if ($paused) return
+
+      if (cellsOutOfFrame.some(c =>
+            $cells.filter(c2 => c.id == c2.id && c2.y < 0).length > 0)) {
+        gameover = true
+      }
+    }, 1000)
+  }
 </script>
 
 <main class="board">
@@ -46,6 +68,13 @@
   </div>
 
 	<div class="board__content">
+    { #if $paused }
+      <Paused />
+    { /if }
+    { #if gameover }
+      <Gameover />
+    { /if }
+
 		<Grid />
 	</div>
 </main>

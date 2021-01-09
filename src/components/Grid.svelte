@@ -8,7 +8,6 @@
   import Cell from "./Cell.svelte"
   import GridBg from "./GridBg.svelte"
   import Aside from "./Aside.svelte"
-  import Paused from "./Paused.svelte"
 
   const maxCellY = 11
   const maxCellX = 5
@@ -30,8 +29,6 @@
       watchCells = JSON.stringify($cells)
     }
   }
-
-  $: checkCellsOutOfFrame($cells)
 
   onMount(() => {
     moveFlyingCells()
@@ -112,19 +109,6 @@
     return false
   }
 
-  function checkCellsOutOfFrame() {
-    const cellsOutOfFrame = $cells.filter(c => c.y < 0)
-
-    if (!cellsOutOfFrame.length) return
-
-    setTimeout(() => {
-      if (cellsOutOfFrame.some(c =>
-            $cells.filter(c2 => c.id == c2.id && c2.y < 0).length > 0)) {
-        console.log("a")
-      }
-    }, 1000)
-  }
-
   function isAnyCellBelowFree(cell) {
     return $cells.filter(_cell => _cell.x == cell.x && _cell.y > cell.y).length < maxCellY - cell.y
   }
@@ -138,10 +122,6 @@
     return true
   }
 </script>
-
-{ #if $paused }
-  <Paused />
-{ /if }
 
 <svg viewBox="0 0 330 540">
   <rect width=330 height=540 fill=#12191d />
