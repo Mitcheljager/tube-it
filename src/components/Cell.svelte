@@ -52,16 +52,17 @@
     if ($paused) return
 
     active = true
-    let dragStart = event.pageX
+    let dragStart = event.changedTouches[0].pageX
     let dragCurrent = dragStart
+    let dragAbsoluteStart = dragStart
 
     const target = event.target.closest("g")
+    const size = target.getBoundingClientRect().width
     if (!target) return
 
     function mouseMove(event) {
-      dragCurrent = event.pageX
+      dragCurrent = event.changedTouches[0].pageX
       const difference = dragCurrent - dragStart
-      const size = target.getBoundingClientRect().width
       let direction = 1
       let step = Math.floor(difference / size)
       if (difference < 0) {
@@ -84,14 +85,14 @@
 
     function mouseUp(event) {
       active = false
-      document.removeEventListener("mousemove", mouseMove)
-      document.removeEventListener("mouseup", mouseUp)
+      document.removeEventListener("touchmove", mouseMove)
+      document.removeEventListener("touchend", mouseUp)
 
-      if (dragStart == dragCurrent) rotateShape()
+      if (Math.abs(dragAbsoluteStart - dragCurrent) < size) rotateShape()
     }
 
-    document.addEventListener("mousemove", mouseMove)
-    document.addEventListener("mouseup", mouseUp)
+    document.addEventListener("touchmove", mouseMove)
+    document.addEventListener("touchend", mouseUp)
   }
 
   function isCellAtEdge(direction) {
@@ -110,7 +111,7 @@
 <g class="cell { cell.connected ? "cell--connected" : "" } { cell.to_be_removed ? "cell--removing" : "" } cell--{ cell.connected_to[1] }"
    class:active
    transform="translate({ $tweenedX * 45 }, { $tweenedY * 45 })"
-   on:mousedown={ startDrag }>
+   on:touchstart={ startDrag }>
 
   <rect height=45 width=45 fill=#ffffff0f />
 

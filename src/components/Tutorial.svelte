@@ -5,6 +5,7 @@
   import Grid from "./Grid.svelte"
 
   let level = -1
+  let tutorialComplete = false
 
   $: setCellsForLevel(level)
   $: if ($cells.length == 0) level++
@@ -49,9 +50,21 @@
         { id: randomString(), x: 4, y: -3, connected_to: -1, shape: $cellShapes[3].shape },
         { id: randomString(), x: 5, y: -4, connected_to: -1, shape: $cellShapes[3].shape }
       ]
+    } else if (level == 4) {
+      tutorialComplete = true
     }
   }
 </script>
+
+{ #if tutorialComplete }
+  <div class="tutorial-complete">
+    <div class="tutorial-complete__title">
+      <small>[</small>Complete<small>]</small>
+    </div>
+
+    <div class="button" on:click={ () => { $screen = "menu" } }><span>&gt;</span> Return to Menu</div>
+  </div>
+{ /if }
 
 <main class="board">
 	<div class="board__header">
@@ -104,6 +117,39 @@
       color: #666;
       font-size: 20px;
       font-weight: normal
+    }
+  }
+
+  @keyframes fade-in-tutorial-complete {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  .tutorial-complete {
+    text-align: center;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    opacity: 0;
+    text-transform: lowercase;
+    animation: fade-in-tutorial-complete 250ms 500ms forwards;
+  }
+
+  .tutorial-complete__title {
+    margin-bottom: 2rem;
+    color: white;
+    font-size: 48px;
+    font-weight: bold;
+
+    small {
+      font-size: 2rem;
+      color: #738b98;
     }
   }
 </style>

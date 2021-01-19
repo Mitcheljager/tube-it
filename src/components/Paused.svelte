@@ -23,6 +23,7 @@
     height: 100%;
     width: 100%;
     background: darken(#12191d, 5%);
+    text-shadow: -4px 4px 0 #ccccff33;
   }
 
   .title {

@@ -3,12 +3,11 @@
 </script>
 
 <div class="container">
-  <div class="title"><small>[</small>Tube<small>-</small><span>that</span><small>]</small></div>
+  <div class="title"><small>[</small>Tube<small>-</small><span>it</span><small>]</small></div>
 
   <div>
     <div class="button" on:click={ () => { $screen = "game" } }><span>&gt;</span> Start</div>
     <div class="button" on:click={ () => { $screen = "tutorial" } }><span>&gt;</span> Tutorial</div>
-    <div class="button" on:click={ () => { $screen = "settings" } }><span>&gt;</span> Settings</div>
   </div>
 </div>
 
@@ -21,6 +20,7 @@
     height: 100%;
     width: 100%;
     background: darken(#12191d, 5%);
+    text-shadow: -4px 4px 0 #ccccff33;
   }
 
   .title {
@@ -31,7 +31,7 @@
     text-transform: lowercase;
 
     small {
-      font-size: 1em;
+      font-size: .75em;
       color: #738b98;
     }
 

@@ -1,11 +1,13 @@
 <script>
   import { paused, screen } from "../stores/screen.js"
+  import { score } from "../stores/score.js"
 </script>
 
 <div class="fullscreen">
   <div class="title">[<small>Game Over</small>]</div>
 
   <div>
+    <div class="final-score">Final score: <strong>{ $score }</strong></div>
     <div class="button" on:click={ () => { $screen = "menu"; $paused = false } }><span>&gt;</span> Exit to menu</div>
   </div>
 </div>
@@ -52,6 +54,21 @@
 
     span {
       color: #738b98;
+    }
+  }
+
+  .final-score {
+    position: fixed;
+    bottom: 2rem;
+    font-weight: bold;
+    font-size: 24px;
+
+    span {
+      color: #738b98;
+    }
+
+    strong {
+      color: #c08706;
     }
   }
 </style>

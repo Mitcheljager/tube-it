@@ -1,7 +1,8 @@
 <script>
   import { onMount, onDestroy } from "svelte"
-  import { screen, paused } from "../stores/screen.js"
+  import { screen, paused, levelComplete } from "../stores/screen.js"
   import { cells, cellShapes, cellNextX } from "../stores/cells.js"
+  import { level } from "../stores/score.js"
   import Grid from "./Grid.svelte"
   import Score from "./Score.svelte"
   import Paused from "./Paused.svelte"
@@ -11,18 +12,24 @@
   let gameover
 
   onMount(() => {
+    $level = 0
+    $levelComplete = false
     gameover = false
-    addRandomCell()
-    addCellInterval = setInterval(addRandomCell, 500)
+    variableInterval()
   })
 
-  onDestroy(() => { clearInterval(addCellInterval) })
+  onDestroy(() => { clearTimeout(addCellInterval) })
 
   $: checkCellsOutOfFrame($cells)
 
-  function addRandomCell() {
-    if ($paused || gameover) return
+  function variableInterval() {
+    addCellInterval = setTimeout(() => {
+      if (!$paused && !gameover && !$levelComplete) addRandomCell()
+      variableInterval()
+    }, Math.max(1500 - ($level * 100), 250))
+  }
 
+  function addRandomCell() {
     const cellShape = getWeightedCellShape()
     const randomString = Math.random().toString(16).substr(2, 5)
 
@@ -45,9 +52,7 @@
   }
 
   function checkCellsOutOfFrame() {
-
     const cellsOutOfFrame = $cells.filter(c => c.y < 0)
-
     if (!cellsOutOfFrame.length) return
 
     setTimeout(() => {
@@ -63,7 +68,7 @@
 
 <main class="board">
 	<div class="board__header">
-    <div class="button" on:click={ pause }><span>&gt;</span> [Pause]</div>
+    <div class="button" on:click={ pause }>[||]</div>
     <Score />
   </div>
 
