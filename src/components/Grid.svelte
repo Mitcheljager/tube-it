@@ -79,17 +79,15 @@
       const adjecentCellIndex = $cells.findIndex(c => c.x == cell.x + direction[0] && c.y == cell.y + direction[1])
 
       if (adjecentCellIndex == -1) return
+      if (!$cells[adjecentCellIndex].shape[direction[2][0]][direction[2][1]]) return
+      if (isAnyCellBelowFree($cells[adjecentCellIndex])) return
+      if (checkCompletedLine(cell, adjecentCellIndex)) return
+      if (checkedCells.includes(adjecentCellIndex)) return
 
-      if ($cells[adjecentCellIndex].shape[direction[2][0]][direction[2][1]]) {
-        if (isAnyCellBelowFree($cells[adjecentCellIndex])) return
-        if (checkCompletedLine(cell, adjecentCellIndex)) return
-        if (checkedCells.includes(adjecentCellIndex)) return
+      $cells[adjecentCellIndex].connected = true
+      $cells[adjecentCellIndex].connected_to = cell.connected_to
 
-        $cells[adjecentCellIndex].connected = true
-        $cells[adjecentCellIndex].connected_to = cell.connected_to
-
-        checkAdjecentCells($cells[adjecentCellIndex])
-      }
+      checkAdjecentCells($cells[adjecentCellIndex])
     })
   }
 
@@ -97,6 +95,8 @@
     if ($cells[cellIndex].connected == true && $cells[cellIndex].connected_to != cell.connected_to) {
       const cellsToBeRemoved = $cells.filter(c => c.connected_to == cell.connected_to || c.connected_to == $cells[cellIndex].connected_to)
       numberOfCellsToBeRemoved.set(cellsToBeRemoved.length)
+
+      console.log(cellsToBeRemoved)
 
       setTimeout(() => { cellsToBeRemoved.map(c => c.to_be_removed = true) })
       setTimeout(() => {

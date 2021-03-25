@@ -1,4 +1,6 @@
 /node_modules/
 /public/build/
+/public/android/
+/android/
 
 .DS_Store

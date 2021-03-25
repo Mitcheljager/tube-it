@@ -18,10 +18,12 @@
 
     score.set($score + scoreToAdd)
     remainingCells = remainingCells - $numberOfCellsToBeRemoved
+
+    if ($score > 0) playScoreAudio()
   }
 
   function setRemainingCellsForLevel() {
-    remainingCells = 30 + (5 * $level)
+    remainingCells = 30 + (15 * $level)
   }
 
   function setNextLevel() {
@@ -29,6 +31,8 @@
 
     level.set($level + 1)
     setRemainingCellsForLevel()
+
+    if ($score > 0) playNextLevelAudio()
   }
 
   function clearLevel() {
@@ -43,6 +47,15 @@
         levelComplete.set(false)
       }, 250)
     }, 2500)
+  }
+
+  function playScoreAudio() {
+    const fileNumber = Math.floor((Math.random() * 5) + 1)
+    new Audio(`sound/score/score-${ fileNumber }.mp3`).play()
+  }
+
+  function playNextLevelAudio() {
+    setTimeout(() => { new Audio(`sound/next-level.mp3`).play() }, 500)
   }
 </script>
 
@@ -115,7 +128,7 @@
 
   label,
   span {
-    color: #666;
+    color: #738b98;
     font-size: 16px;
     font-weight: normal;
     margin-right: .25rem;
@@ -137,11 +150,16 @@
   }
 
   .level-complete {
-    text-align: center;
     position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translateX(-50%) translateY(-50%);
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .5);
     opacity: 0;
     animation: fade-in-level-complete 250ms 500ms forwards;
   }

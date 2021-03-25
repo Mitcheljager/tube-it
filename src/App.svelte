@@ -3,11 +3,13 @@
   import Game from "./components/Game.svelte"
   import Menu from "./components/Menu.svelte"
   import Tutorial from "./components/Tutorial.svelte"
+	import Settings from "./components/Settings.svelte"
 
   const screens = [
     { component: Game, identifier: "game" },
     { component: Menu, identifier: "menu" },
-    { component: Tutorial, identifier: "tutorial" }
+    { component: Tutorial, identifier: "tutorial" },
+		{ component: Settings, identifier: "settings" }
   ]
 </script>
 

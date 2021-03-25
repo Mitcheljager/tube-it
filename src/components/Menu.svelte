@@ -1,5 +1,6 @@
 <script>
   import { screen } from "../stores/screen.js"
+
 </script>
 
 <div class="container">
@@ -8,6 +9,7 @@
   <div>
     <div class="button" on:click={ () => { $screen = "game" } }><span>&gt;</span> Start</div>
     <div class="button" on:click={ () => { $screen = "tutorial" } }><span>&gt;</span> Tutorial</div>
+    <div class="button" on:click={ () => { $screen = "settings" } }><span>&gt;</span> Settings</div>
   </div>
 </div>
 

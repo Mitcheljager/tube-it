@@ -42,6 +42,7 @@
     }, 100)
 
     updateCell()
+    playRotateAudio()
   }
 
   function rotateShapeArray() {
@@ -105,6 +106,12 @@
 
   function isAnyCellBelowFree() {
     return $cells.filter(_cell => _cell.x == cell.x && _cell.y > cell.y).length < maxCellY - cell.y
+  }
+
+  function playRotateAudio() {
+    const fileNumber = Math.floor((Math.random() * 4) + 1)
+    const audio = new Audio(`sound/rotate/rotate-${ fileNumber }.mp3`)
+    audio.play()
   }
 </script>
 

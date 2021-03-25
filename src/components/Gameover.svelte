@@ -1,6 +1,14 @@
 <script>
+  import { onMount } from "svelte"
   import { paused, screen } from "../stores/screen.js"
   import { score } from "../stores/score.js"
+
+  onMount(playAudio)
+
+  function playAudio() {
+    const audio = new Audio("sound/gameover.mp3")
+    audio.play()
+  }
 </script>
 
 <div class="fullscreen">
