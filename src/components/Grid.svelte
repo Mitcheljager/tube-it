@@ -33,7 +33,6 @@
   onMount(() => {
     moveFlyingCells()
 
-    // [...Array(30)].forEach((_, i) => { addRandomCell() })
     moveInterval = setInterval(moveFlyingCells, 100)
   })
 
@@ -64,7 +63,6 @@
 
       cell.connected = true
       cell.connected_to = [cell.x, cell.y]
-      let occupiedCell
 
       checkAdjecentCells(cell)
     })
@@ -95,8 +93,6 @@
     if ($cells[cellIndex].connected == true && $cells[cellIndex].connected_to != cell.connected_to) {
       const cellsToBeRemoved = $cells.filter(c => c.connected_to == cell.connected_to || c.connected_to == $cells[cellIndex].connected_to)
       numberOfCellsToBeRemoved.set(cellsToBeRemoved.length)
-
-      console.log(cellsToBeRemoved)
 
       setTimeout(() => { cellsToBeRemoved.map(c => c.to_be_removed = true) })
       setTimeout(() => {

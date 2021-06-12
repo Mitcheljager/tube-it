@@ -1,14 +1,14 @@
 <script>
-  import { onMount } from "svelte"
   import { screen } from "../stores/screen.js"
   import { cells, cellShapes } from "../stores/cells.js"
+  import { enableSfx } from "../stores/settings.js"
   import Grid from "./Grid.svelte"
 
   let level = -1
   let tutorialComplete = false
 
   $: setCellsForLevel(level)
-  $: if ($cells.length == 0) level++
+  $: if ($cells.length == 0 && level < 4) level++
 
   function randomString() {
     return Math.random().toString(16).substr(2, 5)
@@ -53,7 +53,16 @@
     } else if (level == 4) {
       tutorialComplete = true
     }
+
+   if (level > 0) playAudio()
   }
+
+  function playAudio() {
+      if (!$enableSfx) return
+
+      const fileNumber = Math.floor((Math.random() * 5) + 1)
+      new Audio(`sound/score/score-${ fileNumber }.mp3`).play()
+    }
 </script>
 
 { #if tutorialComplete }
@@ -111,12 +120,11 @@
     border: 0;
     color: #c08706;
     font-size: 28px;
+    font-weight: bold;
     cursor: pointer;
 
     span {
-      color: #666;
-      font-size: 20px;
-      font-weight: normal
+      color: #738b98;
     }
   }
 

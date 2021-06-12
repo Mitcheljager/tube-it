@@ -1,12 +1,14 @@
 <script>
-  import { onDestroy, onMount } from "svelte"
+  import { onMount } from "svelte"
   import { score, numberOfCellsToBeRemoved, level } from "../stores/score.js"
   import { cells } from "../stores/cells.js"
   import { levelComplete } from "../stores/screen.js"
+  import { enableSfx } from "../stores/settings.js"
 
   $: remainingCells = 30
 
-  onDestroy(() => {
+  onMount(() => {
+    remainingCells = 30
     $score = 0
   })
 
@@ -50,11 +52,15 @@
   }
 
   function playScoreAudio() {
+    if (!$enableSfx) return
+
     const fileNumber = Math.floor((Math.random() * 5) + 1)
     new Audio(`sound/score/score-${ fileNumber }.mp3`).play()
   }
 
   function playNextLevelAudio() {
+    if (!$enableSfx) return
+
     setTimeout(() => { new Audio(`sound/next-level.mp3`).play() }, 500)
   }
 </script>

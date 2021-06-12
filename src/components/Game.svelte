@@ -3,6 +3,7 @@
   import { paused, levelComplete } from "../stores/screen.js"
   import { cells, cellShapes, cellNextX } from "../stores/cells.js"
   import { level } from "../stores/score.js"
+  import { enableMusic } from "../stores/settings.js"
   import Grid from "./Grid.svelte"
   import Score from "./Score.svelte"
   import Paused from "./Paused.svelte"
@@ -70,7 +71,9 @@
   }
 </script>
 
-<audio src="sound/theme.mp3" autoplay="true" loop="true" />
+{ #if $enableMusic }
+  <audio src="sound/theme.mp3" autoplay="true" loop="true" />
+{ /if }
 
 <main class="board">
 	<div class="board__header">
