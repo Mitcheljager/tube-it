@@ -168,12 +168,13 @@
     background: rgba(0, 0, 0, .5);
     opacity: 0;
     animation: fade-in-level-complete 250ms 500ms forwards;
+    text-align: center;
   }
 
   .level-complete__title {
     margin-bottom: 2rem;
     color: white;
-    font-size: 48px;
+    font-size: clamp(36px, 15vw, 48px);
     font-weight: bold;
     text-transform: lowercase;
 

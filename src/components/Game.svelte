@@ -111,7 +111,7 @@
     align-items: center;
     padding: .75rem;
     border-bottom: 1px solid #ffffff30;
-    font-size: 28px;
+    font-size: clamp(21px, 6.5vw, 28px);
     font-weight: bold;
     text-shadow: -4px 4px 0 #ccccff33;
     text-transform: lowercase;

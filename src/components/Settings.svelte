@@ -81,7 +81,7 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    font-size: 24px;
+    font-size: clamp(20px, 6.5vw, 24px);
     white-space: nowrap;
     text-transform: lowercase;
 
