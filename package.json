@@ -20,6 +20,7 @@
     "@capacitor/android": "^4.2.0",
     "@capacitor/cli": "^4.2.0",
     "@capacitor/core": "^4.2.0",
+    "@capacitor/status-bar": "^4.0.1",
     "node-sass": "^5.0.0",
     "sirv-cli": "^1.0.0",
     "svelte-confetti": "^1.2.0",

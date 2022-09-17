@@ -55,6 +55,11 @@
   dependencies:
     tslib "^2.1.0"
 
+"@capacitor/status-bar@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@capacitor/status-bar/-/status-bar-4.0.1.tgz#d1320add5f4ef383394b94beae45a0c5af7250e1"
+  integrity sha512-BmEyOf3m/hAf8bO4hCX0m5gpQPSgd05mGYl+9E841WUZeJjcYlmiG/EBshAUb2uGCVtyNaG36yPXB0r0Ypg+rw==
+
 "@ionic/cli-framework-output@^2.2.5":
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/@ionic/cli-framework-output/-/cli-framework-output-2.2.5.tgz#0db9fba7efe0c27bb5085b12ee01f22053e44152"

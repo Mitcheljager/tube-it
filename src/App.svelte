@@ -2,10 +2,12 @@
   import { onMount } from "svelte"
   import { screen } from "./stores/screen.js"
 	import { enableMusic, enableSfx } from "./stores/settings.js"
+	import { Capacitor } from '@capacitor/core'
   import Game from "./components/Game.svelte"
   import Menu from "./components/Menu.svelte"
   import Tutorial from "./components/Tutorial.svelte"
 	import Settings from "./components/Settings.svelte"
+	import NativeSettings from "./components/NativeSettings.svelte"
 
   const screens = [
     { component: Game, identifier: "game" },
@@ -28,6 +30,10 @@
 		return defaultValue
 	}
 </script>
+
+{#if Capacitor.isNativePlatform()}
+	<NativeSettings />
+{/if}
 
 <svelte:component this={ screens.filter(i =>  i.identifier == $screen)[0].component } />
 
