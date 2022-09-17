@@ -1,6 +1,7 @@
 <script>
   import { onMount } from "svelte"
-  import { fly } from "svelte/transition"
+  import { scale, fade } from "svelte/transition"
+  import { Confetti } from "svelte-confetti"
   import { score, numberOfCellsToBeRemoved, level } from "../stores/score.js"
   import { cells } from "../stores/cells.js"
   import { levelComplete } from "../stores/screen.js"
@@ -16,6 +17,9 @@
 
   $: if ($numberOfCellsToBeRemoved > 0) updateScore()
   $: if (remainingCells <= 0) setNextLevel()
+  $: confettiDistance = Math.min(Math.max(scoreNotification / 500, 0.5), 1)
+  $: confettiCount = Math.min(Math.max(scoreNotification / 20, 10), 60)
+  $: confettiSize = Math.min(Math.max(scoreNotification / 30, 5), 15)
 
   function updateScore() {
     const scoreToAdd = Math.floor(($numberOfCellsToBeRemoved * 10) * (1 + ($numberOfCellsToBeRemoved - 2) * .25))
@@ -122,8 +126,14 @@
 { /if }
 
 { #if scoreNotification }
-  <div class="score-notification" style:--score={scoreNotification} in:fly={{ y: 50, duration: 250 }} out:fly={{ y: -50, duration: 250 }}>
-    +{ scoreNotification }
+  <div class="score-notification" style:--score={scoreNotification}>
+    <div in:scale={{ duration: 250 }} out:fade={{ duration: 250 }}>
+      +{ scoreNotification }
+    </div>
+
+    <div class="score-notification__confetti">
+      <Confetti y={[-confettiDistance, confettiDistance]} x={[-confettiDistance, confettiDistance]} amount={confettiCount} size={confettiSize} fallDistance=20px />
+    </div>
   </div>
 { /if }
 
@@ -207,5 +217,12 @@
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
     font-size: clamp(21px, calc((var(--score) / 20) * 1px), 60px);
+  }
+
+  .score-notification__confetti {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: -1;
   }
 </style>
