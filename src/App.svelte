@@ -1,5 +1,7 @@
 <script>
+  import { onMount } from "svelte"
   import { screen } from "./stores/screen.js"
+	import { enableMusic, enableSfx } from "./stores/settings.js"
   import Game from "./components/Game.svelte"
   import Menu from "./components/Menu.svelte"
   import Tutorial from "./components/Tutorial.svelte"
@@ -11,6 +13,20 @@
     { component: Tutorial, identifier: "tutorial" },
 		{ component: Settings, identifier: "settings" }
   ]
+
+	onMount(() => {
+		$enableMusic = getFromLocalStorage("enableMusic", true)
+		$enableSfx = getFromLocalStorage("enableSfx", true)
+	})
+
+	function getFromLocalStorage(key, defaultValue) {
+		const value = localStorage.getItem(key)
+
+		if (value == "false") return false
+		if (value == "true") return true
+		if (value) return value
+		return defaultValue
+	}
 </script>
 
 <svelte:component this={ screens.filter(i =>  i.identifier == $screen)[0].component } />

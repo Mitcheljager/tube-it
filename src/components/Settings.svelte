@@ -1,6 +1,13 @@
 <script>
   import { screen } from "../stores/screen.js"
   import { enableMusic, enableSfx } from "../stores/settings.js"
+
+  $: saveToLocalStorage("enableMusic", $enableMusic)
+  $: saveToLocalStorage("enableSfx", $enableSfx)
+
+  function saveToLocalStorage(key, value) {
+    localStorage.setItem(key, value)
+  }
 </script>
 
 <div class="container">
@@ -47,10 +54,6 @@
     small {
       font-size: .75em;
       color: #738b98;
-    }
-
-    span {
-      color: #c08706;
     }
   }
 
