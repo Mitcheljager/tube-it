@@ -67,13 +67,12 @@
 
   .final-score {
     position: fixed;
+    left: 0;
+    width: 100%;
+    text-align: center;
     bottom: 2rem;
     font-weight: bold;
     font-size: 24px;
-
-    span {
-      color: #738b98;
-    }
 
     strong {
       color: #c08706;
