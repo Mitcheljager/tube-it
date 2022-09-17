@@ -1,0 +1,6 @@
+{
+  "appId": "com.example.tubeit",
+  "appName": "Tube-It",
+  "webDir": "public",
+  "bundledWebRuntime": false
+}
