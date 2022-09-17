@@ -11,6 +11,7 @@
 
   let addCellInterval
   let gameover
+  let audioElement
 
   onMount(() => {
     $level = 0
@@ -23,10 +24,7 @@
 
   $: checkCellsOutOfFrame($cells)
 
-  $: {
-    const audioElement = document.querySelector("audio")
-    if (audioElement) $paused ? audioElement.pause() : audioElement.play()
-  }
+  $: if (audioElement) $paused ? audioElement.pause() : audioElement.play()
 
   function variableInterval() {
     addCellInterval = setTimeout(() => {
@@ -72,7 +70,7 @@
 </script>
 
 { #if $enableMusic }
-  <audio src="sound/theme.mp3" autoplay="true" loop="true" />
+  <audio src="sound/theme.mp3" autoplay="true" loop="true" bind:this={audioElement} />
 { /if }
 
 <main class="board">

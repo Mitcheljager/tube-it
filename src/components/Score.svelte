@@ -1,18 +1,20 @@
 <script>
   import { onMount } from "svelte"
+  import { fly } from "svelte/transition"
   import { score, numberOfCellsToBeRemoved, level } from "../stores/score.js"
   import { cells } from "../stores/cells.js"
   import { levelComplete } from "../stores/screen.js"
   import { enableSfx } from "../stores/settings.js"
 
-  $: remainingCells = 30
+  let remainingCells = 30
+  let scoreNotification = 0
 
   onMount(() => {
     remainingCells = 30
     $score = 0
   })
 
-  $: updateScore($numberOfCellsToBeRemoved)
+  $: if ($numberOfCellsToBeRemoved > 0) updateScore()
   $: if (remainingCells <= 0) setNextLevel()
 
   function updateScore() {
@@ -21,7 +23,10 @@
     score.set($score + scoreToAdd)
     remainingCells = remainingCells - $numberOfCellsToBeRemoved
 
+    if (scoreToAdd) toggleScoreNotification(scoreToAdd)
     if ($score > 0) playScoreAudio()
+
+    $numberOfCellsToBeRemoved = 0
   }
 
   function setRemainingCellsForLevel() {
@@ -62,6 +67,12 @@
     if (!$enableSfx) return
 
     setTimeout(() => { new Audio(`sound/next-level.mp3`).play() }, 500)
+  }
+
+  async function toggleScoreNotification(score) {
+    scoreNotification = score
+    await new Promise(res => setTimeout(res, 1500))
+    scoreNotification = 0
   }
 </script>
 
@@ -107,6 +118,12 @@
     </div>
 
     Initiating next level...
+  </div>
+{ /if }
+
+{ #if scoreNotification }
+  <div class="score-notification" in:fly={{ y: 50, duration: 250 }} out:fly={{ y: -50, duration: 250 }}>
+    +{ scoreNotification }
   </div>
 { /if }
 
@@ -182,5 +199,12 @@
       font-size: 2rem;
       color: #738b98;
     }
+  }
+
+  .score-notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
   }
 </style>

@@ -11,7 +11,7 @@
 
   const maxCellY = 11
   const maxCellX = 5
-  const adjecentCellDirections = [
+  const adjacentCellDirections = [
     [0, -1, [2, 1], "up"],
     [1, 0, [1, 0], "right"],
     [0, 1, [0, 1], "down"],
@@ -22,12 +22,10 @@
   let watchCells = JSON.stringify($cells)
   let moveInterval
 
-  $: {
-    if (watchCells != JSON.stringify($cells)) {
-      checkConnections()
+  $: if (watchCells != JSON.stringify($cells)) {
+    checkConnections()
 
-      watchCells = JSON.stringify($cells)
-    }
+    watchCells = JSON.stringify($cells)
   }
 
   onMount(() => {
@@ -64,37 +62,39 @@
       cell.connected = true
       cell.connected_to = [cell.x, cell.y]
 
-      checkAdjecentCells(cell)
+      checkAdjacentCells(cell)
     })
   }
 
-  function checkAdjecentCells(cell) {
+  function checkAdjacentCells(cell) {
     checkedCells.push($cells.findIndex(c => c == cell))
 
-    adjecentCellDirections.forEach(direction => {
+    adjacentCellDirections.forEach(direction => {
       if (!cellHasConnectorInDirection(cell, direction)) return
 
-      const adjecentCellIndex = $cells.findIndex(c => c.x == cell.x + direction[0] && c.y == cell.y + direction[1])
+      const adjacentCellIndex = $cells.findIndex(c => c.x == cell.x + direction[0] && c.y == cell.y + direction[1])
 
-      if (adjecentCellIndex == -1) return
-      if (!$cells[adjecentCellIndex].shape[direction[2][0]][direction[2][1]]) return
-      if (isAnyCellBelowFree($cells[adjecentCellIndex])) return
-      if (checkCompletedLine(cell, adjecentCellIndex)) return
-      if (checkedCells.includes(adjecentCellIndex)) return
+      if (adjacentCellIndex == -1) return
+      if (!$cells[adjacentCellIndex].shape[direction[2][0]][direction[2][1]]) return
+      if (isAnyCellBelowFree($cells[adjacentCellIndex])) return
+      if (checkCompletedLine(cell, adjacentCellIndex)) return
+      if (checkedCells.includes(adjacentCellIndex)) return
 
-      $cells[adjecentCellIndex].connected = true
-      $cells[adjecentCellIndex].connected_to = cell.connected_to
+      $cells[adjacentCellIndex].connected = true
+      $cells[adjacentCellIndex].connected_to = cell.connected_to
 
-      checkAdjecentCells($cells[adjecentCellIndex])
+      checkAdjacentCells($cells[adjacentCellIndex])
     })
   }
 
   function checkCompletedLine(cell, cellIndex) {
+    if (cell.to_be_removed) return
+
     if ($cells[cellIndex].connected == true && $cells[cellIndex].connected_to != cell.connected_to) {
       const cellsToBeRemoved = $cells.filter(c => c.connected_to == cell.connected_to || c.connected_to == $cells[cellIndex].connected_to)
-      numberOfCellsToBeRemoved.set(cellsToBeRemoved.length)
+      $numberOfCellsToBeRemoved = cellsToBeRemoved.length
 
-      setTimeout(() => { cellsToBeRemoved.map(c => c.to_be_removed = true) })
+      setTimeout(() => cellsToBeRemoved.map(c => c.to_be_removed = true))
       setTimeout(() => {
         if ($cells[cellIndex]) $cells = $cells.filter(c => !cellsToBeRemoved.includes(c))
       }, 250)
