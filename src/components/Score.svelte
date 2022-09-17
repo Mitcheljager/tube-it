@@ -122,7 +122,7 @@
 { /if }
 
 { #if scoreNotification }
-  <div class="score-notification" in:fly={{ y: 50, duration: 250 }} out:fly={{ y: -50, duration: 250 }}>
+  <div class="score-notification" style:--score={scoreNotification} in:fly={{ y: 50, duration: 250 }} out:fly={{ y: -50, duration: 250 }}>
     +{ scoreNotification }
   </div>
 { /if }
@@ -206,5 +206,6 @@
     top: 50%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
+    font-size: clamp(21px, calc((var(--score) / 20) * 1px), 60px);
   }
 </style>
