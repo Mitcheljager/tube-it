@@ -20,6 +20,11 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
+"@capacitor/android@^4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-4.2.0.tgz#f06539694adbaf189cf38cb039f079bde4f7422b"
+  integrity sha512-LWZhM31DoQuNSW8ZGslJ8gZfOAZS2A5TLq30HP1bn0OQTJGvOFIizQysraVRSOOq5FRptykf2nZWu6WEwoKMlA==
+
 "@capacitor/cli@^4.2.0":
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/@capacitor/cli/-/cli-4.2.0.tgz#626b8ea447a210d38d77eedf3d0dc629bf19beaa"

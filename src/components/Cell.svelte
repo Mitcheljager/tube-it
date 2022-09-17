@@ -1,17 +1,11 @@
 <script>
   import { onMount, createEventDispatcher } from "svelte"
-  import { tweened } from "svelte/motion"
   import { cells } from "../stores/cells.js"
   import { screen, paused } from "../stores/screen.js"
   import { enableSfx } from "../stores/settings.js"
 
   export let index
   export let cell
-
-  let tweenedX = tweened(cell.x, { duration: 100 })
-  let tweenedY = tweened(cell.y, { duration: 100 })
-  $: $tweenedX = cell.x
-  $: $tweenedY = cell.y
 
   const dispatch = createEventDispatcher()
   const maxCellY = 11
@@ -120,7 +114,7 @@
 
 <g class="cell { cell.connected ? "cell--connected" : "" } { cell.to_be_removed ? "cell--removing" : "" } cell--{ cell.connected_to[1] }"
    class:active
-   transform="translate({ $tweenedX * 45 }, { $tweenedY * 45 })"
+   style:transform="translate({ cell.x * 45 }px, { cell.y * 45 }px)"
    on:touchstart={ startDrag }>
 
   <rect height=45 width=45 fill=#ffffff0f />
@@ -144,6 +138,7 @@
 
   .cell {
     --cell-color: #{ $gray };
+    transition: transform 100ms linear;
 
     @for $i from 0 through 11 {
       &--#{ $i } {
