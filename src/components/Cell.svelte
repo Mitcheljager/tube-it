@@ -23,11 +23,9 @@
     })
   })
 
-  function updateCell() {
-    setTimeout(() => { dispatch("updateCell", { index: index }) }, 100)
-  }
-
   function rotateShape() {
+    if (cell.is_to_be_removed) return
+
     rotating = true
 
     setTimeout(() => {
@@ -36,7 +34,6 @@
       rotating = false
     }, 100)
 
-    updateCell()
     playRotateAudio()
   }
 
@@ -74,8 +71,6 @@
         if (cell.y != maxCellY && isAnyCellBelowFree()) return
 
         cell.x = cell.x + direction
-
-        updateCell()
       }
     }
 

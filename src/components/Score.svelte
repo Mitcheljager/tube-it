@@ -57,7 +57,7 @@
 
         levelComplete.set(false)
       }, 250)
-    }, 2500)
+    }, 3000)
   }
 
   function playScoreAudio() {
@@ -116,12 +116,14 @@
 </div>
 
 { #if $levelComplete }
-  <div class="level-complete">
-    <div class="level-complete__title">
+  <div class="level-complete" in:fade={{ duration: 500, delay: 500 }}>
+    <div class="level-complete__title" in:scale={{ duration: 500, delay: 500 }}>
       <small>[</small>Complete<small>]</small>
     </div>
 
-    Initiating next level...
+    <div in:fade={{ duration: 500, delay: 1000 }}>
+      Initiating next level...
+    </div>
   </div>
 { /if }
 
@@ -172,16 +174,6 @@
     }
   }
 
-  @keyframes fade-in-level-complete {
-    from {
-      opacity: 0;
-    }
-
-    to {
-      opacity: 1;
-    }
-  }
-
   .level-complete {
     position: fixed;
     top: 0;
@@ -193,8 +185,6 @@
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, .5);
-    opacity: 0;
-    animation: fade-in-level-complete 250ms 500ms forwards;
     text-align: center;
   }
 

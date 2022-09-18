@@ -1,5 +1,6 @@
 <script>
   import { onMount } from "svelte"
+  import { fade, fly, scale } from "svelte/transition"
   import { paused, screen } from "../stores/screen.js"
   import { score } from "../stores/score.js"
 
@@ -11,12 +12,12 @@
   }
 </script>
 
-<div class="fullscreen">
-  <div class="title">[<small>Game Over</small>]</div>
+<div in:fade={{ duration: 500 }} class="fullscreen">
+  <div class="title" in:scale={{ duration: 750 }}>[<small>Game Over</small>]</div>
 
   <div>
-    <div class="final-score">Final score: <strong>{ $score }</strong></div>
-    <div class="button" on:click={ () => { $screen = "menu"; $paused = false } }><span>&gt;</span> Exit to menu</div>
+    <div in:fly={{ y: 50, duration: 500, delay: 1000 }} class="final-score">Final score: <strong>{ $score }</strong></div>
+    <div in:fade={{ duration: 500, delay: 1000 }} class="button" on:click={ () => { $screen = "menu"; $paused = false } }><span>&gt;</span> Exit to menu</div>
   </div>
 </div>
 
@@ -70,7 +71,7 @@
     left: 0;
     width: 100%;
     text-align: center;
-    bottom: 2rem;
+    bottom: 3rem;
     font-weight: bold;
     font-size: 24px;
 
