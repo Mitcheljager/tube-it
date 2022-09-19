@@ -8,6 +8,9 @@
   import GridBg from "./GridBg.svelte"
   import Aside from "./Aside.svelte"
 
+  export let disableRotateFor = []
+  export let disableMoveFor = []
+
   const maxCellY = 11
   const maxCellX = 5
   const adjacentCellDirections = [
@@ -132,7 +135,7 @@
     { /if }
 
     { #each $cells as cell (cell.id) }
-      <Cell { cell } />
+      <Cell { cell } disableMove={disableMoveFor.includes(cell.id)} disableRotate={disableRotateFor.includes(cell.id)} />
     { /each }
   </svg>
 

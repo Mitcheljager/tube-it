@@ -5,6 +5,8 @@
   import { enableSfx } from "../stores/settings.js"
 
   export let cell
+  export let disableRotate = false
+  export let disableMove = false
 
   const maxCellY = 11
   const maxCellX = 5
@@ -22,6 +24,7 @@
   })
 
   function rotateShape() {
+    if (disableRotate) return
     if (cell.is_to_be_removed) return
 
     rotating = true
@@ -36,7 +39,7 @@
   }
 
   function rotateShapeArray() {
-    cell.shape = cell.shape.map((val, index) => cell.shape.map(row => row[index]).reverse())
+    cell.shape = cell.shape.map((_, index) => cell.shape.map(row => row[index]).reverse())
   }
 
   function startDrag(event) {
@@ -52,6 +55,8 @@
     if (!target) return
 
     function mouseMove(event) {
+      if (disableMove) return
+
       dragCurrent = event.changedTouches[0].pageX
       const difference = dragCurrent - dragStart
       let direction = 1
@@ -72,7 +77,7 @@
       }
     }
 
-    function mouseUp(event) {
+    function mouseUp() {
       active = false
       document.removeEventListener("touchmove", mouseMove)
       document.removeEventListener("touchend", mouseUp)
