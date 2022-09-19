@@ -18,8 +18,10 @@
   $: if ($numberOfCellsToBeRemoved > 0) updateScore()
   $: if (remainingCells <= 0) setNextLevel()
   $: confettiDistance = Math.min(Math.max(scoreNotification / 500, 0.5), 1)
-  $: confettiCount = Math.min(Math.max(scoreNotification / 20, 10), 60)
+  $: confettiCount = Math.round(Math.min(Math.max(scoreNotification / 20, 10), 60))
   $: confettiSize = Math.min(Math.max(scoreNotification / 30, 5), 15)
+
+  $: console.log('confetti count', confettiCount)
 
   function updateScore() {
     const scoreToAdd = Math.floor(($numberOfCellsToBeRemoved * 10) * (1 + ($numberOfCellsToBeRemoved - 2) * .25))
