@@ -75,7 +75,7 @@
     } else if (level == 4) {
       text = "Cells can be <strong>moved</strong> even when they are not on top <br><br> <span>Tap and drag to move</span>"
 
-      disableRotateFor = [40, 41, 42, 43, 44, 45, 46, 47, 48]
+      disableRotateFor = [40, 41, 42, 43, 44, 45, 46, 48]
       disableMoveFor = [40, 41, 42, 43, 44, 45, 46, 48]
 
       $cells = [

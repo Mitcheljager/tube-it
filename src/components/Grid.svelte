@@ -34,6 +34,7 @@
 
   onDestroy(() => {
     $cells = []
+    $numberOfCellsToBeRemoved = 0
     clearInterval(moveInterval)
   })
 
