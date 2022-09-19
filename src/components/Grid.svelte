@@ -1,7 +1,6 @@
 <script>
   import { onMount, onDestroy } from "svelte"
-  import { readable, get } from "svelte/store"
-  import { cells, cellShapes, cellNextX } from "../stores/cells.js"
+  import { cells, cellNextX } from "../stores/cells.js"
   import { numberOfCellsToBeRemoved } from "../stores/score.js"
   import { paused, screen } from "../stores/screen.js"
 
@@ -132,8 +131,8 @@
             fill=#738b98>↓</text>
     { /if }
 
-    { #each $cells as cell, index (cell.id) }
-      <Cell { cell } { index } />
+    { #each $cells as cell (cell.id) }
+      <Cell { cell } />
     { /each }
   </svg>
 

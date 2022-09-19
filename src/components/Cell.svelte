@@ -1,13 +1,11 @@
 <script>
-  import { onMount, createEventDispatcher } from "svelte"
+  import { onMount } from "svelte"
   import { cells } from "../stores/cells.js"
   import { screen, paused } from "../stores/screen.js"
   import { enableSfx } from "../stores/settings.js"
 
-  export let index
   export let cell
 
-  const dispatch = createEventDispatcher()
   const maxCellY = 11
   const maxCellX = 5
   let rotating = false

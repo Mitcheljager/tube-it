@@ -134,7 +134,7 @@
     </div>
 
     <div class="score-notification__confetti">
-      <Confetti y={[-confettiDistance, confettiDistance]} x={[-confettiDistance, confettiDistance]} amount={confettiCount} size={confettiSize} fallDistance=20px />
+      <Confetti y={[-confettiDistance, confettiDistance]} x={[-confettiDistance, confettiDistance]} amount={isNaN(confettiCount) ? 0 : confettiCount} size={confettiSize} fallDistance=20px />
     </div>
   </div>
 { /if }

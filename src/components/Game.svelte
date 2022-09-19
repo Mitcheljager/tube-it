@@ -30,7 +30,7 @@
     addCellInterval = setTimeout(() => {
       if (!$paused && !gameover && !$levelComplete) addRandomCell()
       variableInterval()
-    }, Math.max(1500 - ($level * 125), 250))
+    }, Math.max(1500 - ($level * 100), 500))
   }
 
   function addRandomCell() {

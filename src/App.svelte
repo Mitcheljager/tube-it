@@ -52,6 +52,7 @@
     background: darken(#12191d, 5%);
     font-family: "Consolas", monospace;
     color: #e5e5e5;
+		user-select: none;
 	}
 
 	:global(p) {
