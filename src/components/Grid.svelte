@@ -24,11 +24,7 @@
   let watchCells = JSON.stringify($cells)
   let moveInterval
 
-  $: if (watchCells != JSON.stringify($cells)) {
-    checkConnections()
-
-    watchCells = JSON.stringify($cells)
-  }
+  $: watchCellConnections($cells)
 
   onMount(() => {
     moveFlyingCells()
@@ -50,9 +46,19 @@
     })
   }
 
+  function watchCellConnections() {
+    if (watchCells != JSON.stringify($cells)) {
+      checkConnections()
+
+      watchCells = JSON.stringify($cells)
+    }
+  }
+
   function checkConnections() {
     checkedCells = []
-    $cells.map(c => { c.connected = false; c.connected_to = -1 })
+    $cells.forEach(c => { c.connected = false; c.connected_to = -1 })
+
+    console.log('check')
 
     $cells.filter(c => c.x == 0 || c.x == maxCellX).forEach(cell => {
       if (isAnyCellBelowFree(cell)) return
