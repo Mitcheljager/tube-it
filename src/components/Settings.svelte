@@ -1,12 +1,13 @@
 <script>
+  import { Preferences } from "@capacitor/preferences"
   import { screen } from "../stores/screen.js"
   import { enableMusic, enableSfx } from "../stores/settings.js"
 
   $: saveToLocalStorage("enableMusic", $enableMusic)
   $: saveToLocalStorage("enableSfx", $enableSfx)
 
-  function saveToLocalStorage(key, value) {
-    localStorage.setItem(key, value)
+  async function saveToLocalStorage(key, value) {
+    await Preferences.set({ key, value })
   }
 </script>
 

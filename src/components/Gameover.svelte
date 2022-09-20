@@ -1,6 +1,7 @@
 <script>
   import { onMount } from "svelte"
   import { fade, fly, scale } from "svelte/transition"
+  import { Preferences } from "@capacitor/preferences"
   import { paused, screen } from "../stores/screen.js"
   import { score } from "../stores/score.js"
 
@@ -16,9 +17,11 @@
     audio.play()
   }
 
-  function getSetHighscore() {
-    highscore = parseInt((localStorage.getItem("highscore") || 0))
-    if ($score > highscore) localStorage.setItem("highscore", $score)
+  async function getSetHighscore() {
+    const { value } = await Preferences.get({ key: "highscore" })
+
+    highscore = parseInt(value || 0)
+    if ($score > highscore) await Preferences.set({ key: "highscore", value: $score })
   }
 </script>
 

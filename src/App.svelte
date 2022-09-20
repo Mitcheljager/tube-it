@@ -3,6 +3,7 @@
   import { screen } from "./stores/screen.js"
 	import { enableMusic, enableSfx } from "./stores/settings.js"
 	import { Capacitor } from '@capacitor/core'
+	import { Preferences } from "@capacitor/preferences"
   import Game from "./components/Game.svelte"
   import Menu from "./components/Menu.svelte"
   import Tutorial from "./components/Tutorial.svelte"
@@ -16,13 +17,13 @@
 		{ component: Settings, identifier: "settings" }
   ]
 
-	onMount(() => {
-		$enableMusic = getFromLocalStorage("enableMusic", true)
-		$enableSfx = getFromLocalStorage("enableSfx", true)
+	onMount(async () => {
+		$enableMusic = await getFromLocalStorage("enableMusic", true)
+		$enableSfx = await getFromLocalStorage("enableSfx", true)
 	})
 
-	function getFromLocalStorage(key, defaultValue) {
-		const value = localStorage.getItem(key)
+	async function getFromLocalStorage(key, defaultValue) {
+		const { value } = await Preferences.get({ key })
 
 		if (value == "false") return false
 		if (value == "true") return true
