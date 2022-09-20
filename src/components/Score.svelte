@@ -208,7 +208,7 @@
     top: 50%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
-    font-size: clamp(21px, calc((var(--score) / 20) * 1px), 60px);
+    font-size: clamp(21px, calc((var(--score) / 15) * 1px), 60px);
   }
 
   .score-notification__confetti {

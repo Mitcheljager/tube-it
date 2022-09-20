@@ -25,7 +25,7 @@
 
   function rotateShape() {
     if (disableRotate) return
-    if (cell.is_to_be_removed) return
+    if (cell.to_be_removed) return
 
     rotating = true
 
