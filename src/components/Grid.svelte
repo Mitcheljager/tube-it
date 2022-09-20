@@ -29,7 +29,7 @@
   onMount(() => {
     moveFlyingCells()
 
-    moveInterval = setInterval(moveFlyingCells, 100)
+    moveInterval = setInterval(moveFlyingCells, 50)
   })
 
   onDestroy(() => {
