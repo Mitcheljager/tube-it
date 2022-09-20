@@ -100,7 +100,7 @@
     </div>
 
     <div class="line">
-      { remainingCells }
+      { remainingCells.toLocaleString() }
       <span>&lt;</span>
     </div>
   </div>
@@ -111,7 +111,7 @@
     </div>
 
     <div class="line">
-      { $score }
+      { $score.toLocaleString() }
       <span>&lt;</span>
     </div>
   </div>
@@ -132,7 +132,7 @@
 { #if scoreNotification }
   <div class="score-notification" style:--score={scoreNotification}>
     <div in:scale={{ duration: 250 }} out:fade={{ duration: 250 }}>
-      +{ scoreNotification }
+      +{ scoreNotification.toLocaleString() }
     </div>
 
     <div class="score-notification__confetti">
