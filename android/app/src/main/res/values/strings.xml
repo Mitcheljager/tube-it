@@ -4,5 +4,4 @@
     <string name="title_activity_main">Tube-It</string>
     <string name="package_name">com.example.tubeit</string>
     <string name="custom_url_scheme">com.example.tubeit</string>
-    <string name="admob_app_id">ca-app-pub-9279201392924636~1195589331</string>
 </resources>

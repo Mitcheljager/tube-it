@@ -2,7 +2,6 @@
   import { onMount } from "svelte"
   import { screen } from "./stores/screen.js"
 	import { enableMusic, enableSfx } from "./stores/settings.js"
-	import { initializeAdmob, initializeBannerAd } from './utils/admob'
 	import { Capacitor } from '@capacitor/core'
 	import { Preferences } from "@capacitor/preferences"
   import Game from "./components/Game.svelte"
@@ -21,8 +20,6 @@
 	onMount(async () => {
 		$enableMusic = await getFromLocalStorage("enableMusic", true)
 		$enableSfx = await getFromLocalStorage("enableSfx", true)
-
-		initializeAdmob()
 	})
 
 	async function getFromLocalStorage(key, defaultValue) {

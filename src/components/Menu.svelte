@@ -1,9 +1,6 @@
 <script>
-  import { onMount } from "svelte"
   import { screen } from "../stores/screen.js"
-  import { initializeBannerAd } from "../utils/admob.js"
 
-  onMount(initializeBannerAd)
 </script>
 
 <div class="container">
