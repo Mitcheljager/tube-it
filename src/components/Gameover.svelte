@@ -4,15 +4,20 @@
   import { Preferences } from "@capacitor/preferences"
   import { paused, screen } from "../stores/screen.js"
   import { score } from "../stores/score.js"
+  import { enableSfx } from "../stores/settings.js"
+  import { initializeBannerAd } from "../utils/admob.js"
 
   let highscore = 0
 
   onMount(() => {
     playAudio()
     getSetHighscore()
+    initializeBannerAd()
   })
 
   function playAudio() {
+    if (!$enableSfx) return
+
     const audio = new Audio("sound/gameover.mp3")
     audio.play()
   }

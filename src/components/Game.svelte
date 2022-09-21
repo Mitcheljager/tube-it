@@ -84,7 +84,7 @@
       <Paused />
     { /if }
 
-    { #if gameover }
+    { #if !gameover }
       <Gameover />
     { /if }
 
