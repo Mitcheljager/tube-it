@@ -3,6 +3,7 @@
   import { fade, fly, scale } from "svelte/transition"
   import { Preferences } from "@capacitor/preferences"
   import { paused, screen } from "../stores/screen.js"
+  import { enableSfx } from "../stores/settings.js"
   import { score } from "../stores/score.js"
 
   let highscore = 0
@@ -13,6 +14,8 @@
   })
 
   function playAudio() {
+    if (!$enableSfx) return
+
     const audio = new Audio("sound/gameover.mp3")
     audio.play()
   }
