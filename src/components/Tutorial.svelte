@@ -119,7 +119,7 @@
     <div class="button" on:click={ () => { $screen = "menu" } }><span>&gt;</span> [Menu]</div>
 
     <div class="progress">
-      { level + 1 }/4
+      { level + 1 }/6
     </div>
 
     <div class="text">{@html text}</div>
