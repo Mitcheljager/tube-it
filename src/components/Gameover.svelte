@@ -114,26 +114,29 @@
 
     &.new {
       $primary: #bd1d46;
+      color: $primary;
 
-      background-image: linear-gradient(
-        to left,
-        $primary,
-        adjust-hue($primary, + 300),
-        adjust-hue($primary, + 270),
-        adjust-hue($primary, + 240),
-        adjust-hue($primary, + 210),
-        adjust-hue($primary, + 180),
-        adjust-hue($primary, + 150),
-        adjust-hue($primary, + 120),
-        adjust-hue($primary, + 90),
-        adjust-hue($primary, + 60),
-        adjust-hue($primary, + 30),
-        $primary
-      );
-      background-clip: text;
-      background-size: 300% 300%;
-      color: transparent;
-      animation: animate-background 2500ms linear infinite;
+      @supports (background-clip: text) {
+        background-image: linear-gradient(
+          to left,
+          $primary,
+          adjust-hue($primary, + 300),
+          adjust-hue($primary, + 270),
+          adjust-hue($primary, + 240),
+          adjust-hue($primary, + 210),
+          adjust-hue($primary, + 180),
+          adjust-hue($primary, + 150),
+          adjust-hue($primary, + 120),
+          adjust-hue($primary, + 90),
+          adjust-hue($primary, + 60),
+          adjust-hue($primary, + 30),
+          $primary
+        );
+        background-clip: text;
+        background-size: 300% 300%;
+        color: transparent;
+        animation: animate-background 2500ms linear infinite;
+      }
     }
   }
 </style>

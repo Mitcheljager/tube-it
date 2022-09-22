@@ -9,15 +9,17 @@
   import { activePowerup } from "../stores/powerups.js"
 
   let scoreNotification = 0
+  let mounted = false
 
   onMount(() => {
     $level = 0
     $remainingCells = $totalCellsForLevel
     $score = 0
+    mounted = true
   })
 
   $: if ($numberOfCellsToBeRemoved > 0) updateScore()
-  $: if ($remainingCells <= 0) setNextLevel()
+  $: if ($remainingCells <= 0 && mounted) setNextLevel()
   $: confettiDistance = Math.min(Math.max(scoreNotification / 500, 0.5), 1)
   $: confettiCount = Math.round(Math.min(Math.max(scoreNotification / 20, 10), 60))
   $: confettiSize = Math.min(Math.max(scoreNotification / 30, 5), 15)
@@ -25,7 +27,7 @@
   function updateScore() {
     const scoreToAdd = Math.floor(($numberOfCellsToBeRemoved * 10) * (1 + ($numberOfCellsToBeRemoved - 2) * .25))
 
-    score.set($score + scoreToAdd)
+    $score = $score + scoreToAdd
     $remainingCells = $remainingCells - $numberOfCellsToBeRemoved
 
     if (scoreToAdd) toggleScoreNotification(scoreToAdd)
@@ -41,7 +43,7 @@
   function setNextLevel() {
     clearLevel()
 
-    level.set($level + 1)
+    $level = $level + 1
     setRemainingCellsForLevel()
 
     if ($score > 0) playNextLevelAudio()
@@ -57,6 +59,7 @@
       setTimeout(() => {
         $cells = []
 
+        $activePowerup = null
         $levelComplete = false
       }, 250)
     }, 3000)

@@ -4,8 +4,10 @@
   import { Confetti } from "svelte-confetti"
   import { timestopPowerupActive, activePowerup } from "../../stores/powerups"
   import { enableSfx } from "../../stores/settings"
+  import { cells } from "../../stores/cells"
 
   onMount(() => {
+    if (!$cells.length) return
     $timestopPowerupActive = true
 
     playAudio()
@@ -42,16 +44,20 @@
     left: 0;
     top: 25%;
     width: 100%;
-    background-clip: text;
-    background-size: 300% 300%;
-    background-image: linear-gradient(to left, #fdbb2d, #23c1c3, #fdbb2d, #fdbb2d, #23c1c3, #fdbb2d);
-    color: transparent;
+    color: #fdbb2d;
     text-align: center;
     font-weight: bold;
     font-size: clamp(28px, 10vw, 32px);
     text-transform: lowercase;
     pointer-events: none;
-    animation: animate-background 1500ms linear infinite;
+
+    @supports (background-clip: text) {
+      background-clip: text;
+      background-size: 300% 300%;
+      background-image: linear-gradient(to left, #fdbb2d, #23c1c3, #fdbb2d, #fdbb2d, #23c1c3, #fdbb2d);
+      color: transparent;
+      animation: animate-background 1500ms linear infinite;
+    }
   }
 
   .confetti {

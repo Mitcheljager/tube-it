@@ -25,7 +25,7 @@
   })
 
   onDestroy(() => {
-    if (cell.powerup) $activePowerup = cell.powerup
+    if (cell.powerup && $cells.length) $activePowerup = cell.powerup
   })
 
   function rotateShape() {
