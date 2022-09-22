@@ -1,8 +1,9 @@
 <script>
-  import { onMount } from "svelte"
+  import { onMount, onDestroy } from "svelte"
   import { cells } from "../stores/cells.js"
-  import { screen, paused } from "../stores/screen.js"
-  import { enableSfx } from "../stores/settings.js"
+  import { screen, paused } from "../stores/screen"
+  import { enableSfx } from "../stores/settings"
+  import { activePowerup } from "../stores/powerups"
 
   export let cell
   export let disableRotate = false
@@ -21,6 +22,10 @@
     [...Array(randomTimes)].forEach(() => {
       rotateShapeArray()
     })
+  })
+
+  onDestroy(() => {
+    if (cell.powerup) $activePowerup = cell.powerup
   })
 
   function rotateShape() {
@@ -128,6 +133,10 @@
       { /each }
     { /each }
   </g>
+
+  {#if cell.powerup}
+    <g class="powerup">{@html cell.powerup.icon}</g>
+  {/if}
 </g>
 
 <style lang="scss">
@@ -192,5 +201,10 @@
     transform: rotate(90deg);
     transform-origin: center;
     transition: transform 100ms;
+  }
+
+  text{
+    text-anchor: middle;
+    dominant-baseline: middle;
   }
 </style>

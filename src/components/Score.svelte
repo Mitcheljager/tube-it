@@ -2,21 +2,22 @@
   import { onMount } from "svelte"
   import { scale, fade } from "svelte/transition"
   import { Confetti } from "svelte-confetti"
-  import { score, numberOfCellsToBeRemoved, level } from "../stores/score.js"
+  import { score, numberOfCellsToBeRemoved, level, remainingCells, totalCellsForLevel } from "../stores/score.js"
   import { cells } from "../stores/cells.js"
   import { levelComplete } from "../stores/screen.js"
   import { enableSfx } from "../stores/settings.js"
+  import { activePowerup } from "../stores/powerups.js"
 
-  let remainingCells = 30
   let scoreNotification = 0
 
   onMount(() => {
-    remainingCells = 30
+    $level = 0
+    $remainingCells = $totalCellsForLevel
     $score = 0
   })
 
   $: if ($numberOfCellsToBeRemoved > 0) updateScore()
-  $: if (remainingCells <= 0) setNextLevel()
+  $: if ($remainingCells <= 0) setNextLevel()
   $: confettiDistance = Math.min(Math.max(scoreNotification / 500, 0.5), 1)
   $: confettiCount = Math.round(Math.min(Math.max(scoreNotification / 20, 10), 60))
   $: confettiSize = Math.min(Math.max(scoreNotification / 30, 5), 15)
@@ -25,7 +26,7 @@
     const scoreToAdd = Math.floor(($numberOfCellsToBeRemoved * 10) * (1 + ($numberOfCellsToBeRemoved - 2) * .25))
 
     score.set($score + scoreToAdd)
-    remainingCells = remainingCells - $numberOfCellsToBeRemoved
+    $remainingCells = $remainingCells - $numberOfCellsToBeRemoved
 
     if (scoreToAdd) toggleScoreNotification(scoreToAdd)
     if ($score > 0) playScoreAudio()
@@ -34,7 +35,7 @@
   }
 
   function setRemainingCellsForLevel() {
-    remainingCells = 30 + (15 * $level)
+    $remainingCells = $totalCellsForLevel
   }
 
   function setNextLevel() {
@@ -47,15 +48,16 @@
   }
 
   function clearLevel() {
-    levelComplete.set(true)
+    $levelComplete = true
+    $activePowerup = null
 
     setTimeout(() => {
       $cells.map(c => c.to_be_removed = true)
 
       setTimeout(() => {
-        cells.set([])
+        $cells = []
 
-        levelComplete.set(false)
+        $levelComplete = false
       }, 250)
     }, 3000)
   }
@@ -98,7 +100,7 @@
     </div>
 
     <div class="line">
-      { remainingCells.toLocaleString() }
+      { $remainingCells.toLocaleString() }
       <span>&lt;</span>
     </div>
   </div>
@@ -207,6 +209,7 @@
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
     font-size: clamp(21px, calc((var(--score) / 15) * 1px), 60px);
+    pointer-events: none;
   }
 
   .score-notification__confetti {

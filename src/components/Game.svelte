@@ -2,8 +2,9 @@
   import { onMount, onDestroy } from "svelte"
   import { paused, levelComplete } from "../stores/screen.js"
   import { cells, cellShapes, cellNextX } from "../stores/cells.js"
-  import { level } from "../stores/score.js"
+  import { level, remainingCells, totalCellsForLevel } from "../stores/score.js"
   import { enableMusic } from "../stores/settings.js"
+  import { activePowerup, powerups, timestopPowerupActive } from "../stores/powerups"
   import Grid from "./Grid.svelte"
   import Score from "./Score.svelte"
   import Paused from "./Paused.svelte"
@@ -12,6 +13,7 @@
   let addCellInterval
   let gameover
   let audioElement
+  let hasInsertedPowerup = false
 
   onMount(() => {
     $level = 0
@@ -20,15 +22,18 @@
     variableInterval()
   })
 
-  onDestroy(() => { clearTimeout(addCellInterval) })
+  onDestroy(() => {
+    clearTimeout(addCellInterval)
+    $activePowerup = null
+  })
 
   $: checkCellsOutOfFrame($cells)
-
   $: if (audioElement) $paused ? audioElement.pause() : audioElement.play()
+  $: if ($level) hasInsertedPowerup = false
 
   function variableInterval() {
     addCellInterval = setTimeout(() => {
-      if (!$paused && !gameover && !$levelComplete) addRandomCell()
+      if (!$paused && !gameover && !$levelComplete && !$timestopPowerupActive) addRandomCell()
       variableInterval()
     }, Math.max(1500 - ($level * 100), 500))
   }
@@ -37,7 +42,14 @@
     const cellShape = getWeightedCellShape()
     const randomString = Math.random().toString(16).substr(2, 5)
 
-    $cells = [...$cells, { id: randomString, x: $cellNextX, y: -1, shape: cellShape.shape }]
+    const newCell = { id: randomString, x: $cellNextX, y: -1, shape: cellShape.shape }
+
+    if (!hasInsertedPowerup && ($totalCellsForLevel > 100 && $remainingCells < ($totalCellsForLevel / 2))) {
+      newCell.powerup = $powerups.Timestop
+      hasInsertedPowerup = true
+    }
+
+    $cells = [...$cells, newCell]
 
     $cellNextX = Math.floor((Math.random() * 6))
   }
@@ -72,6 +84,10 @@
 { #if $enableMusic }
   <audio src="sound/theme.mp3" autoplay="true" loop="true" bind:this={audioElement} />
 { /if }
+
+{#if $activePowerup }
+  <svelte:component this={$activePowerup.component} />
+{/if}
 
 <main class="board">
 	<div class="board__header">
