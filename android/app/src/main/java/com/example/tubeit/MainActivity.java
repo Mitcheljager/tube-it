@@ -1,4 +1,4 @@
-package com.example.tubeit;
+package com.mitsiee.tubeit;
 
 import com.getcapacitor.BridgeActivity;
 
