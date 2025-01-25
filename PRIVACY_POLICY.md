@@ -22,4 +22,4 @@ Contact Us
 
 If you have any questions about this Privacy Policy, You can contact us:
 
-*   By email: mitchel\_jager@hotmail.com
+*   By email: 1eu6pc3sq@mozmail.com
